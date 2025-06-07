@@ -122,7 +122,7 @@ export default function SignupForm() {
             onClick={handleSubmit}
             className="submit-button"
           >
-            Welcome Back!
+            Sign In
           </button>
 
           <p className="login-link">
