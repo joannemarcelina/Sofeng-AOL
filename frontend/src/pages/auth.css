@@ -4,7 +4,15 @@
   box-sizing: border-box;
 }
 
+.signup-container {
+  height: 100vh;
+}
+
 .signup-card {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
   max-width: 28rem;
   width: 100%;
   background-color: white;
