@@ -1,7 +1,9 @@
 import { useState } from "react";
-import "./SignUp.css";
+import { useNavigate } from "react-router-dom";
+import "./auth.css";
 
 export default function SignupForm() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -188,9 +190,9 @@ export default function SignupForm() {
             <button
               type="button"
               className="login-button"
-              onClick={() => console.log("Navigate to login")}
+              onClick={() => navigate("/sign-in")}
             >
-              Login
+              Sign In
             </button>
           </p>
         </div>
