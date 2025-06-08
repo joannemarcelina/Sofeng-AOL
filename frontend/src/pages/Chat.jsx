@@ -7,7 +7,6 @@ const Chat = () => {
 
     const sendMessage = () => {
         if (!msg.trim()) return;
-        // TODO: hook up to your send logic
         console.log('send:', msg);
         setMsg('');
     };
