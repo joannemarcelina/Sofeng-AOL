@@ -3,8 +3,9 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Discover from "./pages/Discover";
 import Home from "./pages/HomePage";
-import Profile from './pages/Profile';
+import Profile from "./pages/Profile";
 import Chat from "./pages/Chat";
+import ChatList from "./pages/ChatList";
 
 function App() {
   return (
@@ -15,7 +16,8 @@ function App() {
         <Route path="/discover" element={<Discover />} />
         <Route path="/home" element={<Home />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/chat" element={<Chat />} />
+        <Route path="/chat" element={<ChatList />} />
+        <Route path="/chat-room" element={<Chat />} />
       </Routes>
     </Router>
   );
