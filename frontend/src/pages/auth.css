@@ -98,8 +98,8 @@
 }
 
 .form-input:focus {
-  border-color: #3c8558;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  border-color: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
 }
 
 .form-input.error {
@@ -118,6 +118,7 @@
 /* Password Field */
 .password-wrapper {
   position: relative;
+  width: 100%;
 }
 
 .password-input {

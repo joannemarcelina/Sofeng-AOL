@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./auth.css";
-import axios from 'axios';
+import axios from "axios";
 
 export default function SignupForm() {
   const navigate = useNavigate();
@@ -55,23 +55,31 @@ export default function SignupForm() {
   const handleSubmit = async () => {
     if (validateForm()) {
       try {
-        const response = await axios.post('http://localhost:3001/login', {
-          email: formData.email,
-          password: formData.password
-        }, { withCredentials: true });
+        const response = await axios.post(
+          "http://localhost:3001/login",
+          {
+            email: formData.email,
+            password: formData.password,
+          },
+          { withCredentials: true }
+        );
 
         if (response.data.Status === "Success") {
           // alert("Sign in successful!");
           navigate("/home"); // ini buat page slth Sign In
         } else {
-          alert(response.data.Error || "Sign in failed :(\nAccount does not exist or incorrect password!");
+          alert(
+            response.data.Error ||
+              "Sign in failed :(\nAccount does not exist or incorrect password!"
+          );
         }
       } catch (error) {
-        alert("Sign in failed :(\nAccount does not exist or incorrect password!");
+        alert(
+          "Sign in failed :(\nAccount does not exist or incorrect password!"
+        );
       }
     }
   };
-
 
   return (
     <div className="signup-container">
