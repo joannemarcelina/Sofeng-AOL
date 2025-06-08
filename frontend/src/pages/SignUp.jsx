@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./auth.css";
+import axios from 'axios';
 
 export default function SignupForm() {
   const navigate = useNavigate();
@@ -66,13 +67,27 @@ export default function SignupForm() {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (validateForm()) {
-      console.log("Form submitted:", formData);
-      // Handle successful form submission here
-      alert("Account created successfully!");
+      try {
+        const response = await axios.post('http://localhost:3001/register', {
+          name: formData.name,
+          email: formData.email,
+          password: formData.password
+        }, { withCredentials: true });
+
+        if (response.data.Status === "Success") {
+          alert("Account created successfully!");
+          navigate("/sign-in");
+        } else {
+          alert(response.data.Error || "Registration failed :(\nAccount Already Registered!");
+        }
+      } catch (err) {
+        alert("Registration failed :(\nAccount Already Registered!");
+      }
     }
   };
+
 
   return (
     <div className="signup-container">
