@@ -3,7 +3,7 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Discover from "./pages/Discover";
 import Home from "./pages/HomePage";
-// import Profile from './pages/Profile';
+import Profile from './pages/Profile';
 
 function App() {
   return (
@@ -13,7 +13,7 @@ function App() {
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/discover" element={<Discover />} />
         <Route path="/home" element={<Home />} />
-        {/* <Route path="/profile" element={<Profile />} /> */}
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </Router>
   );

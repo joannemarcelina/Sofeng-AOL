@@ -7,8 +7,7 @@ import './Discover.css';
 
 export default function Discover() {
   return (
-    <div className="discover-page"> 
-      {/* All the “scrollable” stuff lives in this sub‐container */}
+    <div className="discover-page">
       <div className="content">
         <h2 className="section-title">Liked You</h2>
         <p className="section-subtitle">Check out people who liked your profile!</p>
@@ -41,8 +40,6 @@ export default function Discover() {
 
         <p className="subtext">Based on your profile and past matches</p>
       </div>
-
-      {/* The Navbar stays fixed at the bottom */}
       <Navbar />
     </div>
   );
