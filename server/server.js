@@ -3,6 +3,8 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import authRoutes from './routes/auth.js';
 import profileRoutes from './routes/profile.js';
+import matchRoutes from './routes/match.js';
+import discoverRoutes from './routes/discover.js';
 
 const app = express();
 
@@ -13,9 +15,11 @@ app.use(cors({
   credentials: true
 }));
 
-app.use('/', authRoutes); // apply route
+app.use('/', authRoutes);
 app.use('/profile', profileRoutes);
 app.use('/uploads', express.static('uploads'));
+app.use('/match', matchRoutes);
+app.use('/discover', discoverRoutes);
 
 
 app.listen(3001, () => {
