@@ -118,4 +118,98 @@ router.post('/upload-photo', upload.single('profilePic'), (req, res) => {
 });
 
 
+// GET: Protected Route
+router.get('/check-profile-complete', (req, res) => {
+  const token = req.cookies.token;
+  if (!token) return res.status(401).json({ complete: false });
+
+  jwt.verify(token, 'jwt-secret-key', (err, decoded) => {
+    if (err) return res.status(403).json({ complete: false });
+
+    const sql = "SELECT userDescription, userSkills, userSearchedSkills, userAge FROM user WHERE userID = ?";
+    db.query(sql, [decoded.id], (err, data) => {
+      if (err || data.length === 0) return res.status(500).json({ complete: false });
+
+      const user = data[0];
+      const isComplete =
+        !!(user.userDescription?.trim() &&
+           user.userSkills?.trim() &&
+           user.userSearchedSkills?.trim() &&
+           user.userAge != null);
+
+      return res.json({ complete: isComplete });
+    });
+  });
+});
+
+// GET: Fetch potential users excluding those already declined or matched
+router.get('/potential-users', (req, res) => {
+  const { email } = req.query;
+
+  const getUserSql = "SELECT * FROM user WHERE userEmail = ?";
+  db.query(getUserSql, [email], (err, result) => {
+    if (err || result.length === 0) {
+      return res.status(500).json({ error: "User not found" });
+    }
+
+    const currentUser = result[0];
+    const declined = currentUser.userDeclines ? currentUser.userDeclines.split(',') : [];
+    const matched = currentUser.userMatches ? currentUser.userMatches.split(',') : [];
+    const searchedSkills = currentUser.userSearchedSkills ? currentUser.userSearchedSkills.split(',').map(s => s.trim()) : [];
+
+    const excluded = [email, ...declined, ...matched];
+    const placeholders = excluded.map(() => '?').join(',');
+
+    const sql = `SELECT * FROM user WHERE userEmail NOT IN (${placeholders})`;
+
+    db.query(sql, excluded, (err2, allUsers) => {
+      if (err2) return res.status(500).json({ error: "Failed to fetch users" });
+
+      // Score each user by number of matched skills
+      const scoredUsers = allUsers.map(user => {
+        const skills = user.userSkills ? user.userSkills.split(',').map(s => s.trim()) : [];
+        const matches = skills.filter(skill => searchedSkills.includes(skill));
+        return { score: matches.length, user };
+      });
+
+      // Sort by score (descending)
+      scoredUsers.sort((a, b) => b.score - a.score);
+
+      // Return only the user objects
+      const sortedUsers = scoredUsers.map(entry => entry.user);
+      res.json(sortedUsers);
+    });
+  });
+});
+
+
+// POST: Handle match or decline
+router.post('/action', (req, res) => {
+  const { currentEmail, targetEmail, action } = req.body;
+
+  const field = action === 'match' ? 'userMatches' : 'userDeclines';
+
+  const getSql = `SELECT ${field} FROM user WHERE userEmail = ?`;
+  db.query(getSql, [currentEmail], (err, result) => {
+    if (err) return res.status(500).json({ error: "DB error" });
+
+    let currentList = result[0][field] ? result[0][field].split(',') : [];
+
+    // Prevent duplicate
+    if (!currentList.includes(targetEmail)) {
+      currentList.push(targetEmail);
+    }
+
+    const updated = currentList.join(',');
+    const updateSql = `UPDATE user SET ${field} = ? WHERE userEmail = ?`;
+    db.query(updateSql, [updated, currentEmail], (err2) => {
+      if (err2) return res.status(500).json({ error: "Failed to update" });
+      return res.json({ status: 'updated' });
+    });
+  });
+});
+
+
+
+
 export default router;

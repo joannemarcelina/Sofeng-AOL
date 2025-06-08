@@ -55,6 +55,7 @@ router.post('/login', (req, res) => {
 
       // Check kalo profile dah lengkap
       const isComplete =
+        user.userAge &&
         user.userDescription &&
         user.userSkills &&
         user.userSearchedSkills;
@@ -74,7 +75,6 @@ router.post('/logout', (req, res) => {
   return res.status(200).json({ Status: "Logged out" });
 });
 
-// /routes/auth.js or similar
 router.get('/me', (req, res) => {
   const token = req.cookies.token;
   if (!token) return res.status(401).json({ error: 'Not authenticated' });
@@ -82,8 +82,30 @@ router.get('/me', (req, res) => {
   jwt.verify(token, 'jwt-secret-key', (err, decoded) => {
     if (err) return res.status(403).json({ error: 'Invalid token' });
 
-    // Optional DB check can go here if needed
     res.json({ id: decoded.id, message: "Authenticated" });
+  });
+});
+
+router.get('/check-profile-complete', (req, res) => {
+  const token = req.cookies.token;
+  if (!token) return res.status(401).json({ error: 'Not authenticated' });
+
+  jwt.verify(token, 'jwt-secret-key', (err, decoded) => {
+    if (err) return res.status(403).json({ error: 'Invalid token' });
+
+    const sql = "SELECT userDescription, userSkills, userSearchedSkills FROM user WHERE userID = ?";
+    db.query(sql, [decoded.id], (err, result) => {
+      if (err) return res.status(500).json({ error: 'Database error' });
+
+      const user = result[0];
+      const isComplete =
+        user.userAge &&
+        user.userDescription &&
+        user.userSkills &&
+        user.userSearchedSkills;
+
+      return res.json({ profileComplete: !!isComplete });
+    });
   });
 });
 

@@ -155,8 +155,10 @@ export default function Profile() {
 
     return (
         <div className="discover-page profile-page">
+            <div className="chat-header">
+                <h1 className="chat-title">Profile</h1>
+            </div>
             <div className="content">
-                <h2 className="profile-title">Profile</h2>
                 <div className="profile-header">
                     <img
                         className="profile-photo"

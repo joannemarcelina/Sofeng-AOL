@@ -4,9 +4,10 @@ import SignUp from "./pages/SignUp";
 import Discover from "./pages/Discover";
 import Home from "./pages/HomePage";
 import Profile from "./pages/Profile";
-import PrivateRoute from './components/PrivateRoute'; // <-- add this
+import PrivateRoute from './components/PrivateRoute';
 import Chat from "./pages/Chat";
 import ChatList from "./pages/ChatList";
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
   return (
@@ -20,16 +21,23 @@ function App() {
           <PrivateRoute><Discover /></PrivateRoute>
         } />
         <Route path="/home" element={
-          <PrivateRoute><Home /></PrivateRoute>
+          <PrivateRoute><ProtectedRoute><Home /></ProtectedRoute></PrivateRoute>
         } />
         <Route path="/profile" element={
           <PrivateRoute><Profile /></PrivateRoute>
         } />
-        <Route path="/discover" element={<Discover />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/chat" element={<ChatList />} />
-        <Route path="/chat-room" element={<Chat />} />
+        <Route path="/discover" element={
+          <PrivateRoute><ProtectedRoute><Discover /></ProtectedRoute></PrivateRoute>
+        } />
+        <Route path="/home" element={
+          <PrivateRoute><ProtectedRoute><Home /></ProtectedRoute></PrivateRoute>
+        } />
+        <Route path="/chat" element={
+          <PrivateRoute><ProtectedRoute><ChatList /></ProtectedRoute></PrivateRoute>
+        } />
+        <Route path="/chat-room" element={
+          <PrivateRoute><ProtectedRoute><Chat /></ProtectedRoute></PrivateRoute>
+        } />
 
       </Routes>
     </Router>
