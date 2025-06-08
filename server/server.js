@@ -15,6 +15,8 @@ app.use(cors({
 
 app.use('/', authRoutes); // apply route
 app.use('/profile', profileRoutes);
+app.use('/uploads', express.static('uploads'));
+
 
 app.listen(3001, () => {
   console.log('[DONE] Server running on http://localhost:3001');
