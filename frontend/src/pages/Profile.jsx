@@ -1,11 +1,53 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Icon } from '@iconify/react';
+import axios from 'axios';
 import Navbar from '../components/Navbar';
 import profilePic from '../assets/profile.png';
 import projectPic from '../assets/project.png';
 import './Profile.css';
 
 export default function Profile() {
+    const [name, setName] = useState('');
+    const [age, setAge] = useState('');
+    const [about, setAbout] = useState('');
+    const [email, setEmail] = useState('');
+    const [isEditingName, setIsEditingName] = useState(false);
+    const [isEditingAge, setIsEditingAge] = useState(false);
+
+
+    useEffect(() => {
+        axios.get('http://localhost:3001/profile/me', { withCredentials: true })
+        .then(res => {
+            setEmail(res.data.email);
+            return axios.get('http://localhost:3001/profile/get-profile', { params: { email: res.data.email } });
+        })
+        .then(res => {
+            setName(res.data.name || '');
+            setAge(res.data.age || '');
+            setAbout(res.data.about || '');
+        })
+        .catch(() => alert('Failed to load profile'));
+    }, []);
+
+    const handleSave = async () => {
+        try {
+            const res = await axios.post('http://localhost:3001/profile/update-profile', {
+                email,
+                name,
+                age,
+                about
+            });
+            if (res.data.Status === "Profile updated successfully") {
+                alert("Profile saved successfully!");
+                // Exit editing mode
+                setIsEditingName(false);
+                setIsEditingAge(false);
+            }
+        } catch (err) {
+            alert("Failed to save profile.");
+        }
+    };
+
     return (
         <div className="discover-page profile-page">
             <div className="content">
@@ -14,9 +56,37 @@ export default function Profile() {
                     <img
                         className="profile-photo"
                         src={profilePic}
-                        alt="Mici"
+                        alt="Profile Photo"
                     />
-                    <h3 className="profile-name">Mici, 19</h3>
+                    <div className="profile-info">
+                        {isEditingName ? (
+                            <input
+                            type="text"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            onBlur={() => { saveField('name', name); setIsEditingName(false); }}
+                            placeholder="Name"
+                            className="profile-input name editing"
+                            autoFocus
+                            />
+                        ) : (
+                            <label className="profile-label">{name || "Name"}</label>
+                        )}
+
+                        {isEditingAge ? (
+                            <input
+                            type="number"
+                            value={age}
+                            onChange={(e) => setAge(e.target.value)}
+                            onBlur={() => { saveField('age', age); setIsEditingAge(false); }}
+                            placeholder="Age"
+                            className="profile-input age editing"
+                            autoFocus
+                            />
+                        ) : (
+                            <label className="profile-label age-label">{age || "Age"}</label>
+                        )}
+                    </div>
                 </div>
                 <div className="list-group">
                     <div className="list-item">
@@ -26,23 +96,34 @@ export default function Profile() {
                         </div>
                         <Icon icon="eva:arrow-ios-forward-outline" className="chevron" />
                     </div>
-                    <div className="list-item">
+                    <div className="list-item" onClick={() => setIsEditingName(true)}>
                         <div className="item-left">
                             <Icon icon="eva:edit-2-outline" className="item-icon green" />
                             <span>Edit Name</span>
                         </div>
                         <Icon icon="eva:arrow-ios-forward-outline" className="chevron" />
-                    </div>
+                        </div>
+
+                        <div className="list-item" onClick={() => setIsEditingAge(true)}>
+                        <div className="item-left">
+                            <Icon icon="eva:edit-2-outline" className="item-icon green" />
+                            <span>Edit Age</span>
+                        </div>
+                        <Icon icon="eva:arrow-ios-forward-outline" className="chevron" />
+                        </div>
                 </div>
                 <div className="section">
                     <h3 className="section-title">About Me</h3>
                     <div className="about-card">
-                        <p>
-                            Hi there! I'm just a girl who loves getting her hands a little
-                            dirty to make things grow. Taking care of my plants is my happy
-                            place—they're like my leafy little friends. Watching them grow day
-                            by day makes my heart smile!
-                        </p>
+                        <textarea
+                            className="about-textarea"
+                            rows={4}
+                            value={about}
+                            onChange={(e) => setAbout(e.target.value)}
+                            onBlur={() => saveField('about', about)}
+                            placeholder="Tell us about yourself..."
+                        />
+
                     </div>
                 </div>
                 <div className="section">
@@ -111,6 +192,16 @@ export default function Profile() {
                         </div>
                     </div>
                 </div>
+
+                <button
+                    className="submit-button"
+                    style={{ marginTop: '20px' }}
+                    onClick={handleSave}
+                    >
+                    Save Profile
+                </button>
+
+
                 <div className="list-group">
                     <div className="list-item">
                         <div className="item-left">

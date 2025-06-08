@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import authRoutes from './routes/auth.js';
+import profileRoutes from './routes/profile.js';
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use(cors({
 }));
 
 app.use('/', authRoutes); // apply route
+app.use('/profile', profileRoutes);
 
 app.listen(3001, () => {
   console.log('[DONE] Server running on http://localhost:3001');

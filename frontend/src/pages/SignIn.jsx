@@ -61,17 +61,19 @@ export default function SignupForm() {
         }, { withCredentials: true });
 
         if (response.data.Status === "Success") {
-          // alert("Sign in successful!");
-          navigate("/home"); // ini buat page slth Sign In
+          if (response.data.profileComplete) {
+            navigate("/home");
+          } else {
+            navigate("/profile"); // kalo info blm lengkap
+          }
         } else {
-          alert(response.data.Error || "Sign in failed :(\nAccount does not exist or incorrect password!");
+          alert(response.data.Error || "Sign in failed");
         }
       } catch (error) {
         alert("Sign in failed :(\nAccount does not exist or incorrect password!");
       }
     }
   };
-
 
   return (
     <div className="signup-container">
