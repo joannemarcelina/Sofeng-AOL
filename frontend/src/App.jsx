@@ -4,6 +4,7 @@ import SignUp from "./pages/SignUp";
 import Discover from "./pages/Discover";
 import Home from "./pages/HomePage";
 import Profile from './pages/Profile';
+import PrivateRoute from './components/PrivateRoute'; // <-- add this
 
 function App() {
   return (
@@ -11,9 +12,17 @@ function App() {
       <Routes>
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-up" element={<SignUp />} />
-        <Route path="/discover" element={<Discover />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/profile" element={<Profile />} />
+
+        {/* Protected Routes */}
+        <Route path="/discover" element={
+          <PrivateRoute><Discover /></PrivateRoute>
+        } />
+        <Route path="/home" element={
+          <PrivateRoute><Home /></PrivateRoute>
+        } />
+        <Route path="/profile" element={
+          <PrivateRoute><Profile /></PrivateRoute>
+        } />
       </Routes>
     </Router>
   );

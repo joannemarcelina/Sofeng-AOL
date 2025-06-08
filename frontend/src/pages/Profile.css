@@ -73,48 +73,44 @@
   border: none;
   color: #222;
   cursor: default;
-
-  .profile-input:focus {
-    outline: none;
-    border: 1px solid #4CAF50;
-    background-color: #fff;
-  }
-
-  .profile-input.editing {
-    border: 1px solid #4CAF50;
-    background-color: #fff;
-  }
-
-
-  .list-group {
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 12px;
-    overflow: hidden;
-    margin-bottom: 24px;
-    margin-top: 24px;
-  }
-
-  .list-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 16px;
-    border-bottom: 1px solid #eee;
-    transition: background-color 0.2s ease;
-    cursor: pointer;
-  }
-
-  .list-item:hover {
-    background-color: #f5f5f5;
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 12px;
-    overflow: hidden;
-    margin-bottom: 24px;
-  }
-
 }
+
+.profile-input:focus {
+outline: none;
+border: 1px solid #4CAF50;
+background-color: #fff;
+}
+
+.profile-input.editing {
+border: 1px solid #4CAF50;
+background-color: #fff;
+}
+
+
+.list-group {
+background: #fff;
+border: 1px solid #ddd;
+border-radius: 12px;
+overflow: hidden;
+margin-bottom: 24px;
+margin-top: 24px;
+}
+
+.list-item {
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 12px 16px;
+border-bottom: 1px solid #eee;
+transition: background-color 0.2s ease;
+cursor: pointer;
+}
+
+.list-item:hover {
+background-color: #f5f5f5;
+}
+
+
 
 .list-item:last-child {
   border-bottom: none;

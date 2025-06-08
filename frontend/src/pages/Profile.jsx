@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Icon } from '@iconify/react';
-// import axios from 'axios';
+import axios from 'axios';
 import Navbar from '../components/Navbar';
 import profilePic from '../assets/profile.png';
-import projectPic from '../assets/project.png';
 import './Profile.css';
+import { useNavigate } from 'react-router-dom';
 
 export default function Profile() {
+    const navigate = useNavigate();
     const [name, setName] = useState('');
     const [age, setAge] = useState('');
     const [about, setAbout] = useState('');
@@ -14,54 +15,60 @@ export default function Profile() {
     const [isEditingName, setIsEditingName] = useState(false);
     const [isEditingAge, setIsEditingAge] = useState(false);
 
-    // Dropdown chips state
-    const [skills, setSkills] = useState([
-        "Propagation Techniques",
-        "Herb Gardening",
-        "Flower Arranging"
-    ]);
-    const [lookingFor, setLookingFor] = useState([
-        "DIY / Crafting",
-        "Cooking",
-        "Woodworking Basics",
-        "Soil Preparation"
-    ]);
+    const [skills, setSkills] = useState([]);
+    const [lookingFor, setLookingFor] = useState([]);
     const [showSkillDropdown, setShowSkillDropdown] = useState(false);
     const [showLookingDropdown, setShowLookingDropdown] = useState(false);
+    const [projects, setProjects] = useState([]);
+    const [projectInput, setProjectInput] = useState('');
+    const [profilePicPath, setProfilePicPath] = useState('');
 
-    const skillOptions = [
-        "Propagation Techniques",
-        "Herb Gardening",
-        "Flower Arranging",
-        "Composting",
-        "Seed Saving",
-        "Pruning"
-    ];
-    const lookingOptions = [
-        "DIY / Crafting",
+
+    const generalSkills = [
+        "Gardening",
+        "Coding",
+        "Gaming",
         "Cooking",
-        "Woodworking Basics",
-        "Soil Preparation",
-        "Irrigation",
-        "Garden Design"
+        "Design",
+        "Photography",
+        "Writing",
+        "Public Speaking",
+        "Music",
+        "Video Editing",
+        "Fitness",
+        "Marketing",
+        "DIY",
+        "Crafting",
+        "Business",
+        "Finance",
+        "Language Learning",
+        "Leadership",
+        "Project Management"
     ];
+
+    const skillOptions = generalSkills;
+    const lookingOptions = generalSkills;
 
     const skillDropdownRef = useRef(null);
     const lookingDropdownRef = useRef(null);
 
-    // useEffect(() => {
-    //     axios.get('http://localhost:3001/profile/me', { withCredentials: true })
-    //         .then(res => {
-    //             setEmail(res.data.email);
-    //             return axios.get('http://localhost:3001/profile/get-profile', { params: { email: res.data.email } });
-    //         })
-    //         .then(res => {
-    //             setName(res.data.name || '');
-    //             setAge(res.data.age || '');
-    //             setAbout(res.data.about || '');
-    //         })
-    //         .catch(() => alert('Failed to load profile'));
-    // }, []);
+    useEffect(() => {
+        axios.get('http://localhost:3001/profile/me', { withCredentials: true })
+            .then(res => {
+                setEmail(res.data.email);
+                return axios.get('http://localhost:3001/profile/get-profile', { params: { email: res.data.email } });
+            })
+            .then(res => {
+                setName(res.data.name || '');
+                setAge(res.data.age || '');
+                setAbout(res.data.about || '');
+                setSkills(res.data.skills || []);
+                setLookingFor(res.data.lookingFor || []);
+                setProjects(res.data.projects || []);
+                setProfilePicPath(res.data.profilePic);
+            })
+            .catch(() => alert('Failed to load profile'));
+    }, []);
 
     useEffect(() => {
         function handleClickOutside(event) {
@@ -76,23 +83,62 @@ export default function Profile() {
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
-    // const handleSave = async () => {
-    //     try {
-    //         const res = await axios.post('http://localhost:3001/profile/update-profile', {
-    //             email,
-    //             name,
-    //             age,
-    //             about
-    //         });
-    //         if (res.data.Status === "Profile updated successfully") {
-    //             alert("Profile saved successfully!");
-    //             setIsEditingName(false);
-    //             setIsEditingAge(false);
-    //         }
-    //     } catch (err) {
-    //         alert("Failed to save profile.");
-    //     }
-    // };
+    const handleSave = async () => {
+        try {
+            const res = await axios.post('http://localhost:3001/profile/update-profile', {
+                email,
+                name,
+                age,
+                about,
+                skills,
+                lookingFor,
+                projects
+            });
+            if (res.data.Status === "Profile updated successfully") {
+                alert("Profile saved successfully!");
+                setIsEditingName(false);
+                setIsEditingAge(false);
+            }
+        } catch (err) {
+            alert("Failed to save profile.");
+        }
+    };
+
+    const handleLogout = async () => {
+        try {
+            await axios.post('http://localhost:3001/logout', {}, { withCredentials: true });
+            navigate('/sign-in');
+        } catch (err) {
+            alert('Logout failed');
+        }
+    };
+
+    const handlePhotoUpload = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const formData = new FormData();
+        formData.append('profilePic', file);
+        formData.append('email', email);
+
+        try {
+            const res = await axios.post('http://localhost:3001/profile/upload-photo', formData, {
+            withCredentials: true,
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+            });
+
+            if (res.data.Status === "Success") {
+                setProfilePicPath(res.data.filename);
+                alert('Profile picture updated!');
+            }
+        } catch (err) {
+            console.error(err.response?.data || err);
+            alert('Upload failed');
+        }
+    };
+
 
     // UI only: add/remove skill/looking chips
     const addSkill = (skill) => {
@@ -114,7 +160,7 @@ export default function Profile() {
                 <div className="profile-header">
                     <img
                         className="profile-photo"
-                        src={profilePic}
+                        src={profilePicPath ? `http://localhost:3001/uploads/${profilePicPath}?t=${Date.now()}` : profilePic}
                         alt="Profile Photo"
                     />
                     <div className="profile-info">
@@ -151,7 +197,14 @@ export default function Profile() {
                     <div className="list-item">
                         <div className="item-left">
                             <Icon icon="eva:camera-outline" className="item-icon green" />
-                            <span>Change Profile Photo</span>
+                            <label htmlFor="photo-upload" style={{ cursor: 'pointer' }}>Change Profile Photo</label>
+                            <input
+                            id="photo-upload"
+                            type="file"
+                            accept="image/*"
+                            style={{ display: 'none' }}
+                            onChange={handlePhotoUpload}
+                            />
                         </div>
                         <Icon icon="eva:arrow-ios-forward-outline" className="chevron" />
                     </div>
@@ -241,37 +294,41 @@ export default function Profile() {
                     <h3 className="section-title">Latest Project</h3>
                     <div className="section-card">
                         <div className="input-group">
-                            <input
-                                type="text"
-                                placeholder="What have you been working on lately?"
-                            />
-                            <Icon icon="eva:plus-outline" className="plus-icon green" />
+                        <input
+                            type="text"
+                            placeholder="What have you been working on lately?"
+                            value={projectInput}
+                            onChange={(e) => setProjectInput(e.target.value)}
+                        />
+                        <Icon
+                            icon="eva:plus-outline"
+                            className="plus-icon green"
+                            onClick={() => {
+                            if (projectInput.trim() && !projects.includes(projectInput)) {
+                                setProjects([...projects, projectInput.trim()]);
+                                setProjectInput('');
+                            }
+                            }}
+                        />
                         </div>
+                        {projects.map((link, index) => (
                         <a
+                            key={index}
                             className="project-link-group"
-                            href="https://behance.com/mici"
+                            href={link}
                             target="_blank"
                             rel="noreferrer"
                         >
                             <Icon icon="eva:link-2-outline" className="link-icon green" />
-                            <span>https://behance.com/mici</span>
+                            <span>{link}</span>
                         </a>
-                        <div className="project-preview">
-                            <img
-                                src={projectPic}
-                                alt="Made with Soil and Heart"
-                            />
-                            <p className="caption">Made with Soil and Heart</p>
-                            <p className="description">
-                                I gave this porch a little glow-up: tidied, planted, and watched it bloom into something soft and lovely. Every pot, every flower has its own story now…
-                            </p>
-                        </div>
+                        ))}
                     </div>
-                </div>
+                    </div>
                 <button
                     className="submit-button"
                     style={{ marginTop: '20px' }}
-                // onClick={handleSave}
+                    onClick={handleSave}
                 >
                     Save Profile
                 </button>
@@ -326,7 +383,7 @@ export default function Profile() {
                         cursor: 'pointer',
                         transition: 'background 0.2s, color 0.2s'
                     }}
-                // onClick={handleLogout}
+                    onClick={handleLogout}
                 >
                     Log Out
                 </button>

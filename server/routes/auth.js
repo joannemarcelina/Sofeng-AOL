@@ -67,5 +67,25 @@ router.post('/login', (req, res) => {
   });
 });
 
+// LOGOUT: Clear JWT cookie
+router.post('/logout', (req, res) => {
+  console.log('Logging out user');
+  res.clearCookie('token', { path: '/' });
+  return res.status(200).json({ Status: "Logged out" });
+});
+
+// /routes/auth.js or similar
+router.get('/me', (req, res) => {
+  const token = req.cookies.token;
+  if (!token) return res.status(401).json({ error: 'Not authenticated' });
+
+  jwt.verify(token, 'jwt-secret-key', (err, decoded) => {
+    if (err) return res.status(403).json({ error: 'Invalid token' });
+
+    // Optional DB check can go here if needed
+    res.json({ id: decoded.id, message: "Authenticated" });
+  });
+});
+
 
 export default router;
