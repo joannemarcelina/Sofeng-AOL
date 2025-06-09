@@ -220,3 +220,83 @@
   max-width: 300px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
+
+.match-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.popup-content {
+  background: #ffffff;
+  padding: 32px 24px;
+  border-radius: 16px;
+  text-align: center;
+  width: 90%;
+  max-width: 340px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+  animation: pop 0.25s ease-out;
+}
+
+.popup-content h2 {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.popup-content p {
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+
+.popup-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 20px;
+  border: 3px solid #3c8558;
+}
+
+.start-chat-btn {
+  background-color: #3c8558;
+  color: black;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  margin-bottom: 10px;
+}
+
+.start-chat-btn:hover {
+  background-color: #2e6e48;
+}
+
+.popup-content button {
+  display: block;
+  margin: 0 auto;
+  font-size: 14px;
+  padding: 6px 14px;
+  border: 1px solid #cccccc;
+  background-color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.popup-content button:hover {
+  background-color: #f5f5f5;
+}
+
+@keyframes pop {
+  0% { transform: scale(0.85); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
