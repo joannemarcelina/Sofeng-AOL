@@ -143,11 +143,17 @@
   align-items: center;
   gap: 32px;
   padding: 24px 0;
+  position: fixed;
+  z-index: 2;
+  bottom: 60px;
+  margin-left: auto;
+  width: 382px;
+  justify-content: space-between;
 }
 
 .home-page .action-btn {
-  width: 56px;
-  height: 56px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
   border: none;
   display: flex;
@@ -159,6 +165,7 @@
 
 .home-page .btn-close {
   background: white;
+  color: red;
   border: 2px solid #e5e7eb;
 }
 
@@ -294,6 +301,11 @@
 
 .popup-content button:hover {
   background-color: #f5f5f5;
+}
+
+.icon-btn {
+  width: 40px;
+  height: 40px;
 }
 
 @keyframes pop {

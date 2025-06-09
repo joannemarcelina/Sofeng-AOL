@@ -143,10 +143,10 @@ const handleStartChat = async () => {
               {/* Action Buttons */}
               <div className="action-buttons">
                 <button className="action-btn btn-close" onClick={() => handleAction('decline')}>
-                  <Icon icon="mdi:close" />
+                  <Icon className="icon-btn" icon="mdi:close" />
                 </button>
                 <button className="action-btn btn-star" onClick={() => handleAction('match')}>
-                  <Icon icon="mdi:star" />
+                  <Icon className="icon-btn" icon="mdi:star" />
                 </button>
               </div>
 
