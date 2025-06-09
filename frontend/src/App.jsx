@@ -5,7 +5,7 @@ import Discover from "./pages/Discover";
 import Home from "./pages/HomePage";
 import Profile from "./pages/Profile";
 import PrivateRoute from './components/PrivateRoute';
-import Chat from "./pages/Chat";
+import Chat from './pages/Chat';
 import ChatList from "./pages/ChatList";
 import ProtectedRoute from './components/ProtectedRoute';
 
@@ -35,8 +35,8 @@ function App() {
         <Route path="/chat" element={
           <PrivateRoute><ProtectedRoute><ChatList /></ProtectedRoute></PrivateRoute>
         } />
-        <Route path="/chat-room" element={
-          <PrivateRoute><ProtectedRoute><Chat /></ProtectedRoute></PrivateRoute>
+        <Route path="/chat-room/:chatroomID" element={
+          <PrivateRoute><Chat /></PrivateRoute>
         } />
 
       </Routes>

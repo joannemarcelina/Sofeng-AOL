@@ -53,7 +53,8 @@ router.get('/get-profile', (req, res) => {
     });
 });
 
-// GET: Get authenticated user's email from JWT token
+// GET: Get authenticated user's email and ID from JWT token
+// GET /profile/me
 router.get('/me', (req, res) => {
   const token = req.cookies.token;
   if (!token) return res.status(401).json({ error: 'Not authenticated' });
@@ -61,15 +62,17 @@ router.get('/me', (req, res) => {
   jwt.verify(token, 'jwt-secret-key', (err, decoded) => {
     if (err) return res.status(403).json({ error: 'Invalid token' });
 
-    const sql = "SELECT userEmail FROM user WHERE userID = ?";
+    const sql = "SELECT userID, userEmail FROM user WHERE userID = ?";
     db.query(sql, [decoded.id], (err, result) => {
       if (err) return res.status(500).json({ error: 'DB error' });
       if (!result.length) return res.status(404).json({ error: 'User not found' });
 
-      return res.json({ email: result[0].userEmail });
+      return res.json({ id: result[0].userID, email: result[0].userEmail });
     });
   });
 });
+
+
 
 // Storage config
 const storage = multer.diskStorage({

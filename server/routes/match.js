@@ -42,4 +42,18 @@ router.post('/interact', (req, res) => {
   });
 });
 
+// GET: Check if two users mutually matched
+router.get('/check-match', (req, res) => {
+  const { userA, userB } = req.query;
+
+  const sql = 'SELECT userMatches FROM user WHERE userEmail = ?';
+  db.query(sql, [userB], (err, result) => {
+    if (err || result.length === 0) return res.json({ mutual: false });
+
+    const matched = result[0].userMatches?.split(',') || [];
+    return res.json({ mutual: matched.includes(userA) });
+  });
+});
+
+
 export default router;

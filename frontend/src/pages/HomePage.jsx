@@ -3,12 +3,19 @@ import { Icon } from "@iconify/react";
 import "./HomePage.css";
 import Navbar from "../components/Navbar";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 
 export default function HomePage() {
   const [users, setUsers] = useState([]);
   const [index, setIndex] = useState(0);
   const [currentUser, setCurrentUser] = useState(null);
   const [myEmail, setMyEmail] = useState('');
+  const [matchedUser, setMatchedUser] = useState(null);
+  const [showMatchPopup, setShowMatchPopup] = useState(false);
+  const navigate = useNavigate();
+
+
 
   useEffect(() => {
     axios.get('http://localhost:3001/profile/me', { withCredentials: true })
@@ -25,15 +32,49 @@ export default function HomePage() {
 
   const handleAction = async (type) => {
     if (!currentUser) return;
+
     await axios.post('http://localhost:3001/profile/action', {
       currentEmail: myEmail,
       targetEmail: currentUser.userEmail,
       action: type
     });
+
+    if (type === 'match') {
+      const isMutualMatch = currentUser.userMatches?.includes(myEmail);
+      if (isMutualMatch) {
+        setMatchedUser(currentUser);
+        setShowMatchPopup(true);
+        return; // Don't move to next card immediately
+      }
+    }
+
     const nextIndex = index + 1;
     setIndex(nextIndex);
     setCurrentUser(users[nextIndex]);
   };
+
+const handleStartChat = async () => {
+  try {
+    const res = await axios.post('http://localhost:3001/chat/start-chat', {
+      chatroomName: `${myEmail}_${matchedUser.userEmail}`,
+      senderEmail: myEmail,
+      partnerEmail: matchedUser.userEmail
+    }, { withCredentials: true });
+
+    const roomID = res.data.chatroomID;
+
+    navigate(`/chat-room/${roomID}`, {
+      state: {
+        chatroomName: matchedUser.userName,
+        partnerPic: matchedUser.userProfilePic
+      }
+    });
+  } catch (err) {
+    alert("Failed to start chat");
+    console.error(err);
+  }
+};
+
 
   return (
     <div className="home-page">
@@ -123,6 +164,28 @@ export default function HomePage() {
           
         </div>
       </div>
+
+      {showMatchPopup && matchedUser && (
+        <div className="match-popup">
+          <div className="popup-content">
+            <h2>🎉 It's a Match!</h2>
+            <p>You and {matchedUser.userName} liked each other.</p>
+            <img
+              src={`http://localhost:3001/uploads/${matchedUser.userProfilePic}`}
+              alt={matchedUser.userName}
+              className="popup-avatar"
+            />
+            <button className="start-chat-btn" onClick={handleStartChat}>Start Chat</button>
+            <button onClick={() => {
+              setShowMatchPopup(false);
+              const nextIndex = index + 1;
+              setIndex(nextIndex);
+              setCurrentUser(users[nextIndex]);
+            }}>Maybe Later</button>
+          </div>
+        </div>
+      )}
+
       <Navbar />
     </div>
   );
