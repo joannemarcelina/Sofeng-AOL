@@ -1,0 +1,455 @@
+.profile-page {
+  background: #f5f5f5;
+  position: relative;
+  overflow-y: auto;
+}
+
+.chat-header {
+  padding: 8px 8px;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.chat-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.content {
+  padding: 16px;
+  padding-bottom: 100px;
+}
+
+.profile-title {
+  font-size: 24px;
+  font-weight: 400;
+  margin-bottom: 16px;
+  color: #222;
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.profile-photo {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profile-label {
+  font-size: 22px;
+  font-weight: 700;
+  color: #222;
+}
+
+.age-label {
+  font-size: 22px;
+  color: #222;
+}
+
+
+.profile-info {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.profile-input.name,
+.profile-input.age {
+  font-size: 18px;
+  font-weight: 500;
+  color: #222;
+  font-style: bold;
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  width: auto;
+  min-width: 80px;
+  max-width: 160px;
+}
+
+.profile-input.age {
+  width: 60px;
+}
+
+.profile-input[readonly] {
+  background-color: transparent;
+  border: none;
+  color: #222;
+  cursor: default;
+}
+
+.profile-input:focus {
+outline: none;
+border: 1px solid #4CAF50;
+background-color: #fff;
+}
+
+.profile-input.editing {
+border: 1px solid #4CAF50;
+background-color: #fff;
+}
+
+
+.list-group {
+background: #fff;
+border: 1px solid #ddd;
+border-radius: 12px;
+overflow: hidden;
+margin-bottom: 24px;
+margin-top: 24px;
+}
+
+.list-item {
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 12px 16px;
+border-bottom: 1px solid #eee;
+transition: background-color 0.2s ease;
+cursor: pointer;
+}
+
+.list-item:hover {
+background-color: #f5f5f5;
+}
+
+
+
+.list-item:last-child {
+  border-bottom: none;
+}
+
+.item-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.item-icon {
+  font-size: 20px;
+  color: #555;
+}
+
+.green {
+  color: #2c7a7b;
+}
+
+.chevron {
+  font-size: 16px;
+  color: #999;
+}
+
+.about-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 16px;
+  line-height: 1.5;
+  color: #333;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: 400;
+  color: #222;
+  margin-left: 6px;
+}
+
+.section-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 12px;
+  margin-top: 8px;
+  margin-bottom: 24px;
+}
+
+.input-group {
+  width: 100%;
+}
+
+.input-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 40px;
+  padding: 0;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 12px;
+  flex-wrap: nowrap;
+}
+
+.profile-page .input-group input {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+  height: 100%;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  color: #555;
+  padding: 0 0 0 6px;
+  text-align: left;
+}
+
+.profile-header .input-group input::placeholder {
+  text-align: left;
+  color: #999;
+}
+
+.plus-icon {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag {
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  color: #fff;
+}
+
+.orange {
+  background: #f39c12;
+}
+
+.purple {
+  background: #9b59b6;
+}
+
+.yellow {
+  background: #f1c40f;
+  color: #333;
+}
+
+.project-link-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #2c7a7b;
+  text-decoration: none;
+  margin-bottom: 12px;
+}
+
+.link-icon {
+  font-size: 18px;
+}
+
+.project-preview {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.project-preview img {
+  width: 100%;
+  display: block;
+}
+
+.caption {
+  padding: 8px;
+  font-size: 12px;
+  color: #333;
+}
+
+.description {
+  margin: 4px 8px 12px;
+  font-size: 12px;
+  line-height: 1.4;
+  color: #666;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background: #ccc;
+  transition: 0.4s;
+  border-radius: 20px;
+}
+
+.slider::before {
+  content: "";
+  position: absolute;
+  height: 16px;
+  width: 16px;
+  left: 2px;
+  bottom: 2px;
+  background: #fff;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+.switch input:checked+.slider {
+  background: #2c7a7b;
+}
+
+.switch input:checked+.slider::before {
+  transform: translateX(20px);
+}
+
+.content {
+  padding: 16px;
+  padding-bottom: 100px;
+  overflow-y: auto;
+}
+
+.about-textarea {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 15px;
+  font-family: inherit;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  resize: vertical;
+  background-color: #fafafa;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: border-color 0.2s;
+}
+
+.about-textarea:focus {
+  outline: none;
+  border-color: #4CAF50;
+  /* green accent */
+  background-color: #fff;
+
+}
+
+/* Container dropdown + chips */
+.dropdown-chips-container {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+/* Style tiap chip */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+}
+
+.remove-icon {
+  margin-left: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.remove-icon:hover {
+  opacity: 1;
+}
+
+/* Tombol pemicu dropdown */
+.dropdown-button {
+  background: transparent;
+  border: 1px dashed #aaa;
+  border-radius: 16px;
+  padding: 6px 12px;
+  font-size: 12px;
+  color: #555;
+  cursor: pointer;
+}
+
+.dropdown-button:hover {
+  background: #f0f0f0;
+}
+
+/* Daftar opsi */
+.dropdown-list {
+  position: absolute;
+  top: 36px;
+  left: 0;
+  z-index: 10;
+  min-width: 160px;
+  max-height: 180px;
+  overflow-y: auto;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  list-style: none;
+  padding: 4px 0;
+  margin: 0;
+}
+
+.dropdown-list li {
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+}
+
+.dropdown-list li:hover {
+  background: #f5f5f5;
+}
+
+/* Override warna tag jika perlu */
+.tag.orange {
+  background: #f39c12;
+  color: #fff;
+}
+
+.tag.purple {
+  background: #9b59b6;
+  color: #fff;
+}
+
+.logout-button {
+  width: 100%;
+  margin: 32px 0 0 0;
+  padding: 12px;
+  background: #fff;
+  color: #e74c3c;
+  border: 1px solid #e74c3c;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.logout-button:hover {
+  background: #e74c3c;
+  color: #fff;
+}

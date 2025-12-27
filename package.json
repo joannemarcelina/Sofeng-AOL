@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "@iconify/react": "^6.0.0",
+    "axios": "^1.9.0",
+    "multer": "^2.0.1",
+    "uuid": "^11.1.0"
+  }
+}
